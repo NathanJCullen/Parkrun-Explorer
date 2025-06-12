@@ -1,5 +1,6 @@
 import { courseData } from './data/courseData.js'
 import { coordinatesByPostcode } from './data/coordinatesByPostcode.js';
+import haversine from "https://esm.sh/haversine";
 
 function addListeners() {
     const parkrunSelect = document.querySelector('#parkrun-select');
@@ -13,15 +14,33 @@ function handleParkrunChange(target) {
     const name = target.options[target.selectedIndex].textContent;
     const postcode = target.value;
     populateTable(postcode);
+
+    const otherParkruns = document.getElementById('other-parkruns');
+    otherParkruns.classList.remove('hidden')
 }
 
-function populateTable(postcode) {
+function populateTable(selectedPostcode) {
+    const selectedCoordinates = coordinatesByPostcode[selectedPostcode];
     courseData.forEach(row => {
         const [ranking, name, postcode, time] = row.split(',');
+        const coordinates = coordinatesByPostcode[postcode];
+        if (!selectedCoordinates || !coordinates) {
+            return;
+        }
+        const splitStart = selectedCoordinates.split(',');
+        const splitEnd = coordinates.split(',');
+
+        const start = {
+            latitude: Number(splitStart[0]), longitude: Number(splitStart[1])
+        }
+        const end = {
+            latitude: Number(splitEnd[0]), longitude: Number(splitEnd[1])
+        }
+        const distance = Math.round(haversine(start, end, { unit: 'mile' }))
 
         const tr = document.createElement('tr');
 
-        [ranking, name, postcode, time].forEach(text => {
+        [ranking, name, distance, time].forEach(text => {
             const td = document.createElement('td');
             td.textContent = text;
             tr.appendChild(td);
