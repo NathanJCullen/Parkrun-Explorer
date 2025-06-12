@@ -1,4 +1,5 @@
-import { courseData } from './courseData.js'
+import { courseData } from './data/courseData.js'
+import { coordinatesByPostcode } from './data/coordinatesByPostcode.js';
 
 function addListeners() {
     const parkrunSelect = document.querySelector('#parkrun-select');
@@ -9,8 +10,26 @@ function addListeners() {
 }
 
 function handleParkrunChange(target) {
-    alert(target.options[target.selectedIndex].textContent);
-    alert(target.value);
+    const name = target.options[target.selectedIndex].textContent;
+    const postcode = target.value;
+    populateTable(postcode);
+}
+
+function populateTable(postcode) {
+    courseData.forEach(row => {
+        const [ranking, name, postcode, time] = row.split(',');
+
+        const tr = document.createElement('tr');
+
+        [ranking, name, postcode, time].forEach(text => {
+            const td = document.createElement('td');
+            td.textContent = text;
+            tr.appendChild(td);
+        });
+
+        const tbody = document.querySelector('tbody');
+        tbody.appendChild(tr);
+    });
 }
 
 function populateParkrunDropdown() {
