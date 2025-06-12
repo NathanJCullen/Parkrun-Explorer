@@ -16,7 +16,12 @@
         </a>
 
         <label for="parkrun-select">Choose a Parkrun:</label>
-        <select id="parkrun-select" class="mb1"></select>
+        <select id="parkrun-select" class="mb1">
+            <option value="" selected disabled>Select a Parkrun</option>
+        </select>
+
+        <label for="distance-input">Enter a max distance:</label>
+        <input id="distance-input" type="number" class="mb1"></select>
 
         <div id="selected-parkrun" class="hidden">
             <h1>Your selected Parkrun</h1>

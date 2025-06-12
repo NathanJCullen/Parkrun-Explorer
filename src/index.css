@@ -6,6 +6,22 @@
     text-align: center;
 }
 
+table {
+    width: 100%;
+}
+
+input {
+    width: 100px;
+}
+
+label {
+    font-size: 1.2rem;
+}
+
+input {
+    margin-bottom: 0;
+}
+
 .hidden {
     display: none;
 }
@@ -18,10 +34,6 @@
     button {
         margin-right: 1rem;
     }
-}
-
-table {
-    width: 100%;
 }
 
 .mb1 {

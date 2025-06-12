@@ -5,7 +5,8 @@ import haversine from "https://esm.sh/haversine";
 const selectedParkrun = document.getElementById('selected-parkrun');
 const otherParkruns = document.getElementById('other-parkruns');
 
-let sortBy;
+let sortBy = 'distance'
+let maxDistance;
 
 function addListeners() {
     const parkrunSelect = document.getElementById('parkrun-select');
@@ -13,6 +14,12 @@ function addListeners() {
         const target = event.target;
         handleParkrunChange(target);
         sortTable()
+    });
+
+    const distanceInput = document.getElementById('distance-input');
+    distanceInput.addEventListener('input', (event) => {
+        maxDistance = Number(event.target.value);
+        updateValidTableRows();
     });
 
     const sortByRanking = document.getElementById('sort-ranking')
@@ -36,6 +43,7 @@ function handleParkrunChange(target) {
     clearTables(containers);
     populateSelectedParkrunTable(postcode, selectedParkrun)
     populateOtherParkrunsTable(postcode, otherParkruns);
+    updateValidTableRows();
 
 }
 
@@ -130,6 +138,19 @@ function sortTable() {
     });
 
     rows.forEach(row => tbody.appendChild(row));
+}
+
+function updateValidTableRows() {
+    const rows = otherParkruns.querySelectorAll('tbody tr');
+
+    rows.forEach(row => {
+        const distance = parseFloat(row.children[2].textContent);
+        if (distance > maxDistance) {
+            row.style.display = 'none';
+        } else {
+            row.style.display = 'table-row';
+        }
+    });
 }
 
 function populateParkrunDropdown() {
