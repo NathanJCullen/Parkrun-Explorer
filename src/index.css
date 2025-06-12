@@ -1,3 +1,7 @@
 .hidden {
     display: none;
 }
+
+#selected-parkrun {
+    margin: 2rem 0;
+}

@@ -14,9 +14,22 @@
     <label for="parkrun-select">Choose a Parkrun:</label>
     <select id="parkrun-select"></select>
 
+    <div id="selected-parkrun" class="hidden">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Ranking</th>
+                    <th>Name</th>
+                    <th>Average Time</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
     <div id="other-parkruns" class="hidden">
         <h2>Other Parkruns</h2>
-        <table id="data-table" border="1">
+        <table border="1">
             <thead>
                 <tr>
                     <th>Ranking</th>

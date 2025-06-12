@@ -11,15 +11,54 @@ function addListeners() {
 }
 
 function handleParkrunChange(target) {
-    const name = target.options[target.selectedIndex].textContent;
-    const postcode = target.value;
-    populateTable(postcode);
-
+    const selectedParkrun = document.getElementById('selected-parkrun');
     const otherParkruns = document.getElementById('other-parkruns');
-    otherParkruns.classList.remove('hidden')
+    const containers = [selectedParkrun, otherParkruns]
+    const postcode = target.value;
+
+    showTables(containers);
+    clearTables(containers);
+    populateSelectedParkrunTable(postcode, selectedParkrun)
+    populateOtherParkrunsTable(postcode, otherParkruns);
+
 }
 
-function populateTable(selectedPostcode) {
+function clearTables(containers) {
+    containers.forEach((container) => {
+        const table = container.querySelector('table');
+        while (table.rows.length > 1) {
+            table.deleteRow(1);
+        }
+    })
+}
+
+function showTables(containers) {
+    containers.forEach((div) => {
+        div.classList.remove('hidden')
+    })
+}
+
+function populateSelectedParkrunTable(selectedPostcode, container) {
+    const data = courseData.find(item => {
+        const parts = item.split(',');
+        return parts[2] === selectedPostcode;
+    });
+
+    const [ranking, name, postcode, time] = data.split(',');
+
+    const tr = document.createElement('tr');
+
+    [ranking, name, time].forEach(text => {
+        const td = document.createElement('td');
+        td.textContent = text;
+        tr.appendChild(td);
+    });
+
+    const tbody = container.querySelector('tbody');
+    tbody.appendChild(tr);
+}
+
+function populateOtherParkrunsTable(selectedPostcode, container) {
     const selectedCoordinates = coordinatesByPostcode[selectedPostcode];
     courseData.forEach(row => {
         const [ranking, name, postcode, time] = row.split(',');
@@ -46,7 +85,7 @@ function populateTable(selectedPostcode) {
             tr.appendChild(td);
         });
 
-        const tbody = document.querySelector('tbody');
+        const tbody = container.querySelector('tbody');
         tbody.appendChild(tr);
     });
 }
