@@ -1,5 +1,5 @@
-import { courseData } from './data/courseData.js'
-import { coordinatesByPostcode } from './data/coordinatesByPostcode.js';
+import { courseData } from './courseData.js'
+import { coordinatesByPostcode } from './coordinatesByPostcode.js';
 import haversine from "https://esm.sh/haversine";
 
 const selectedParkrun = document.getElementById('selected-parkrun');
