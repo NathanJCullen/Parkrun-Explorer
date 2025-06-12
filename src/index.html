@@ -9,38 +9,48 @@
 </head>
 
 <body>
-    <h1>PARKRUN EXPLORER</h1>
+    <div id="content">
+        <h1>PARKRUN EXPLORER</h1>
+        <a class="mb1" href="https://www.thepowerof10.info/content/itemdisplay.aspx?itemid=1706">Rankings up to
+            date with 2025 results.
+        </a>
 
-    <label for="parkrun-select">Choose a Parkrun:</label>
-    <select id="parkrun-select"></select>
+        <label for="parkrun-select">Choose a Parkrun:</label>
+        <select id="parkrun-select" class="mb1"></select>
 
-    <div id="selected-parkrun" class="hidden">
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Ranking</th>
-                    <th>Name</th>
-                    <th>Average Time</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-    <div id="other-parkruns" class="hidden">
-        <h2>Other Parkruns</h2>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Ranking</th>
-                    <th>Name</th>
-                    <th>Distance (Miles)</th>
-                    <th>Average Time</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <div id="selected-parkrun" class="hidden">
+            <h1>Your selected Parkrun</h1>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Ranking</th>
+                        <th>Name</th>
+                        <th>Average Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="other-parkruns" class="hidden">
+            <h1>Other Parkruns</h2>
+                <div class="sort-buttons">
+                    <button id="sort-ranking">Sort by Ranking</button>
+                    <button id="sort-distance">Sort by Distance</button>
+                </div>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Ranking</th>
+                            <th>Name</th>
+                            <th>Distance (Miles)</th>
+                            <th>Average Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+        </div>
     </div>
     <script type="module" src="./index.js"></script>
 </body>

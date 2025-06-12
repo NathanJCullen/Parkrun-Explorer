@@ -1,7 +1,29 @@
+#content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
 .hidden {
     display: none;
 }
 
-#selected-parkrun {
-    margin: 2rem 0;
+.sort-buttons {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+
+    button {
+        margin-right: 1rem;
+    }
+}
+
+table {
+    width: 100%;
+}
+
+.mb1 {
+    margin-bottom: 1rem;
 }

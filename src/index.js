@@ -2,17 +2,33 @@ import { courseData } from './data/courseData.js'
 import { coordinatesByPostcode } from './data/coordinatesByPostcode.js';
 import haversine from "https://esm.sh/haversine";
 
+const selectedParkrun = document.getElementById('selected-parkrun');
+const otherParkruns = document.getElementById('other-parkruns');
+
+let sortBy;
+
 function addListeners() {
-    const parkrunSelect = document.querySelector('#parkrun-select');
+    const parkrunSelect = document.getElementById('parkrun-select');
     parkrunSelect.addEventListener('change', (event) => {
         const target = event.target;
         handleParkrunChange(target);
+        sortTable()
     });
+
+    const sortByRanking = document.getElementById('sort-ranking')
+    sortByRanking.addEventListener(('click'), () => {
+        sortBy = 'ranking';
+        sortTable()
+    })
+
+    const sortByDistance = document.getElementById('sort-distance')
+    sortByDistance.addEventListener(('click'), () => {
+        sortBy = 'distance'
+        sortTable()
+    })
 }
 
 function handleParkrunChange(target) {
-    const selectedParkrun = document.getElementById('selected-parkrun');
-    const otherParkruns = document.getElementById('other-parkruns');
     const containers = [selectedParkrun, otherParkruns]
     const postcode = target.value;
 
@@ -60,6 +76,7 @@ function populateSelectedParkrunTable(selectedPostcode, container) {
 
 function populateOtherParkrunsTable(selectedPostcode, container) {
     const selectedCoordinates = coordinatesByPostcode[selectedPostcode];
+
     courseData.forEach(row => {
         const [ranking, name, postcode, time] = row.split(',');
         const coordinates = coordinatesByPostcode[postcode];
@@ -77,6 +94,10 @@ function populateOtherParkrunsTable(selectedPostcode, container) {
         }
         const distance = Math.round(haversine(start, end, { unit: 'mile' }))
 
+        if (Number.isNaN(distance) || distance === 0) {
+            return
+        }
+
         const tr = document.createElement('tr');
 
         [ranking, name, distance, time].forEach(text => {
@@ -88,6 +109,27 @@ function populateOtherParkrunsTable(selectedPostcode, container) {
         const tbody = container.querySelector('tbody');
         tbody.appendChild(tr);
     });
+}
+
+function sortTable() {
+    const tbody = otherParkruns.querySelector('tbody');
+
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+
+    rows.sort((rowA, rowB) => {
+        const cellsA = rowA.querySelectorAll('td');
+        const cellsB = rowB.querySelectorAll('td');
+
+        if (sortBy === 'ranking') {
+            return parseInt(cellsA[0].textContent) - parseInt(cellsB[0].textContent);
+        } else if (sortBy === 'distance') {
+            return parseFloat(cellsA[2].textContent) - parseFloat(cellsB[2].textContent);
+        }
+
+        return 0;
+    });
+
+    rows.forEach(row => tbody.appendChild(row));
 }
 
 function populateParkrunDropdown() {
